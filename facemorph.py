@@ -45,7 +45,7 @@ dataset.close
 logging.info("Deleting first half")
 os.chdir('CACD2000')
 images = glob.glob('*.jpg')
-images = images[:79500]
+images = images[79500:158400]
 print("Now Processing: ", len(images))
 
 logging.info("Pre-Processing Start")
