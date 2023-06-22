@@ -1,0 +1,40 @@
+name: Preprocessing Images
+run-name: Preprocessing Images
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' # install the python version needed
+          
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: execute facemorph.py
+        run: python facemorph.py
+        
+      - name: 'Compress Images'
+        run: tar -zcvf preprocessedCACD.tar.gz CACD2000/preprocessed/
+          
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: preprocecssedCACD
+          path: preprocessedCACD.tar.gz
+          retention-days: 2
