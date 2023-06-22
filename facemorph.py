@@ -42,9 +42,13 @@ dataset = tarfile.open(output)
 dataset.extractall()
 dataset.close
 
-logging.info("Pre-Processing Start")
+logging.info("Deleting first half")
 os.chdir('CACD2000')
 images = glob.glob('*.jpg')
+images = images[:79500]
+print("Now Processing: ", len(images))
+
+logging.info("Pre-Processing Start")
 pool = ProcessPoolExecutor(max_workers=35)
 
 results = pool.map(img_format, images)
